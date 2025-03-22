@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Proteção Financeira e Patrimonial</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            text-align: center;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .intro {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .intro img {
+            max-width: 120px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-container {
+            margin: 20px 0;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background-color: var(--light);
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            margin-right: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 5px 5px 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+        }
+        
+        .btn-danger {
+            background-color: var(--accent);
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 10px;
+        }
+        
+        .result-summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .result-item {
+            flex: 1 1 300px;
+            margin: 10px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-item h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .flex-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 300px;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .emotional-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+            height: 40px;
+        }
+        
+        .emotional-scale-bar {
+            position: absolute;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, #e74c3c, #f39c12, #2ecc71);
+            border-radius: 5px;
+        }
+        
+        .emotional-scale-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--dark);
+            border-radius: 50%;
+            top: -5px;
+            transform: translateX(-50%);
+            transition: left 0.3s;
+            z-index: 1;
+        }
+        
+        .emotional-scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        .insight-box {
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--secondary);
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .insight-box h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .print-only {
+                display: block;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+            
+            .card, .results {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .flex-col {
+                flex: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .tab-btn {
+                flex: 1 1 auto;
+                font-size: 14px;
+                padding: 8px 12px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Proteção Financeira e Patrimonial</h1>
+            <p>Dimensione suas necessidades de proteção combinando análise financeira e bem-estar emocional</p>
+        </header>
+        
+        <div class="card intro">
+            <h2>Bem-vindo(a) à sua jornada de proteção financeira</h2>
+            <p>Esta ferramenta foi desenvolvida para ajudar você a compreender suas necessidades de proteção financeira e patrimonial de forma integrada, considerando tanto aspectos técnicos quanto emocionais.</p>
+            <p>Preencha as informações solicitadas nas abas abaixo para obter uma análise personalizada.</p>
+        </div>
+        
+        <div class="tab-container no-print">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab(event, 'perfil')">Perfil Pessoal</button>
+                <button class="tab-btn" onclick="openTab(event, 'dependentes')">Dependentes</button>
+                <button class="tab-btn" onclick="openTab(event, 'patrimonio')">Patrimônio</button>
+                <button class="tab-btn" onclick="openTab(event, 'emocional')">Perfil Emocional</button>
+                <button class="tab-btn" onclick="openTab(event, 'resultados')">Resultados</button>
+            </div>
+            
+            <div id="perfil" class="tab-content active">
+                <h2>Informações Pessoais</h2>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo:</label>
+                            <input type="text" id="nome" placeholder="Seu nome completo">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="idade">Idade:</label>
+                            <input type="number" id="idade" min="18" max="100" placeholder="Sua idade atual">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="genero">Gênero:</label>
+                            <select id="genero">
+                                <option value="">Selecione</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="outro">Outro</option>
+                                <option value="prefiro-nao-dizer">Prefiro não dizer</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="estadoCivil">Estado Civil:</label>
+                            <select id="estadoCivil">
+                                <option value="">Selecione</option>
+                                <option value="solteiro">Solteiro(a)</option>
+                                <option value="casado">Casado(a)</option>
+                                <option value="uniao-estavel">União Estável</option>
+                                <option value="divorciado">Divorciado(a)</option>
+                                <option value="viuvo">Viúvo(a)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profissao">Profissão:</label>
+                            <input type="text" id="profissao" placeholder="Sua profissão atual">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rendaMensal">Renda Mensal (R$):</label>
+                            <input type="number" id="rendaMensal" min="0" step="100" placeholder="Sua renda mensal">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="planoSaude">Possui plano de saúde?</label>
+                            <select id="planoSaude">
+                                <option value="">Selecione</option>
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="planoPrev">Possui plano de previdência privada?</label>
+                            <select id="planoPrev">
+                                <option value="">Selecione</option>
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" onclick="nextTab()">Próximo: Dependentes</button>
+                </div>
+            </div>
+            
+            <div id="dependentes" class="tab-content">
+                <h2>Informações sobre Dependentes</h2>
+                
+                <div class="form-group">
+                    <label for="temDependentes">Possui dependentes financeiros?</label>
+                    <select id="temDependentes" onchange="toggleDependentes()">
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                
+                <div id="dependentesDetails" style="display: none;">
+                    <div class="form-group">
+                        <label for="numDependentes">Número de dependentes:</label>
+                        <input type="number" id="numDependentes" min="0" max="10" value="0" onchange="atualizarDependentes()">
+                    </div>
+                    
+                    <div id="dependentesList">
+                        <!-- A lista de dependentes será gerada dinamicamente aqui -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gastosEducacao">Gastos Mensais com Educação dos Dependentes (R$):</label>
+                    <input type="number" id="gastosEducacao" min="0" step="100" placeholder="Total de gastos mensais com educação">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tempoSuporteDependentes">Por quanto tempo você gostaria de garantir o suporte financeiro aos seus dependentes em caso de sua ausência?</label>
+                    <select id="tempoSuporteDependentes">
+                        <option value="">Selecione</option>
+                        <option value="5">5 anos</option>
+                        <option value="10">10 anos</option>
+                        <option value="15">15 anos</option>
+                        <option value="20">20 anos</option>
+                        <option value="25">25 anos ou mais</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" onclick="prevTab()">Anterior: Perfil Pessoal</button>
+                    <button class="btn" onclick="nextTab()">Próximo: Patrimônio</button>
+                </div>
+            </div>
+            
+            <div id="patrimonio" class="tab-content">
+                <h2>Informações Patrimoniais</h2>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="valorImoveis">Valor total em imóveis (R$):</label>
+                            <input type="number" id="valorImoveis" min="0" step="1000" placeholder="Valor dos seus imóveis">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="valorVeiculos">Valor total em veículos (R$):</label>
+                            <input type="number" id="valorVeiculos" min="0" step="1000" placeholder="Valor dos seus veículos">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="valorInvestimentos">Valor total em investimentos (R$):</label>
+                            <input type="number" id="valorInvestimentos" min="0" step="1000" placeholder="Valor dos seus investimentos">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="valorOutrosAtivos">Valor de outros ativos (R$):</label>
+                            <input type="number" id="valorOutrosAtivos" min="0" step="1000" placeholder="Valor de outros ativos">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="valorDividas">Valor total em dívidas (R$):</label>
+                            <input type="number" id="valorDividas" min="0" step="1000" placeholder="Valor das suas dívidas">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label for="gastosFixosMensais">Gastos Fixos Mensais (R$):</label>
+                            <input type="number" id="gastosFixosMensais" min="0" step="100" placeholder="Seus gastos fixos mensais">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="seguroExistente">Possui algum seguro de vida ou patrimonial?</label>
+                    <select id="seguroExistente" onchange="toggleSeguroExistente()">
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                
+                <div id="seguroExistenteDetails" style="display: none;">
+                    <div class="form-group">
+                        <label for="valorCoberturaSeguros">Valor total de cobertura dos seguros existentes (R$):</label>
+                        <input type="number" id="valorCoberturaSeguros" min="0" step="1000" placeholder="Valor total de cobertura">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" onclick="prevTab()">Anterior: Dependentes</button>
+                    <button class="btn" onclick="nextTab()">Próximo: Perfil Emocional</button>
+                </div>
+            </div>
+            
+            <div id="emocional" class="tab-content">
+                <h2>Perfil Emocional e de Risco</h2>
+                
+                <div class="insight-box">
+                    <h4>Por que isso é importante?</h4>
+                    <p>Seu perfil emocional em relação a proteção e risco influencia diretamente nas decisões financeiras. Compreender esses aspectos ajuda a criar um plano de proteção que também proporcione tranquilidade emocional.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preocupacaoFamilia">Qual seu nível de preocupação com o bem-estar financeiro de sua família em sua ausência?</label>
+                    <input type="range" id="preocupacaoFamilia" min="1" max="10" value="5" oninput="atualizarEmotionalMarker('preocupacaoFamilia')">
+                    <div class="emotional-scale">
+                        <div class="emotional-scale-bar"></div>
+                        <div id="preocupacaoFamiliaMarker" class="emotional-scale-marker" style="left: 50%;"></div>
+                        <div class="emotional-scale-labels">
+                            <span>Pouca preocupação</span>
+                            <span>Preocupação média</span>
+                            <span>Muita preocupação</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="disposicaoRisco">Qual sua disposição para assumir riscos financeiros?</label>
+                    <input type="range" id="disposicaoRisco" min="1" max="10" value="5" oninput="atualizarEmotionalMarker('disposicaoRisco')">
+                    <div class="emotional-scale">
+                        <div class="emotional-scale-bar"></div>
+                        <div id="disposicaoRiscoMarker" class="emotional-scale-marker" style="left: 50%;"></div>
+                        <div class="emotional-scale-labels">
+                            <span>Conservador</span>
+                            <span>Moderado</span>
+                            <span>Arrojado</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ansiedadeFinanceira">Qual seu nível de ansiedade em relação a imprevistos financeiros?</label>
+                    <input type="range" id="ansiedadeFinanceira" min="1" max="10" value="5" oninput="atualizarEmotionalMarker('ansiedadeFinanceira')">
+                    <div class="emotional-scale">
+                        <div class="emotional-scale-bar"></div>
+                        <div id="ansiedadeFinanceiraMarker" class="emotional-scale-marker" style="left: 50%;"></div>
+                        <div class="emotional-scale-labels">
+                            <span>Baixa ansiedade</span>
+                            <span>Ansiedade média</span>
+                            <span>Alta ansiedade</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prioridadesProtecao">Quais são suas maiores preocupações em termos de proteção? (Selecione até 3)</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="preocupacaoSaude" class="prioridadeProtecao">
+                        <label for="preocupacaoSaude">Despesas médicas inesperadas</label><br>
+                        
+                        <input type="checkbox" id="preocupacaoMorte" class="prioridadeProtecao">
+                        <label for="preocupacaoMorte">Suporte à família em caso de falecimento</label><br>
+                        
+                        <input type="checkbox" id="preocupacaoIncapacidade" class="prioridadeProtecao">
+                        <label for="preocupacaoIncapacidade">Incapacidade de trabalhar</label><br>
+                        
+                        <input type="checkbox" id="preocupacaoPatrimonio" class="prioridadeProtecao">
+                        <label for="preocupacaoPatrimonio">Danos ao patrimônio</label><br>
+                        
+                        <input type="checkbox" id="preocupacaoAposentadoria" class="prioridadeProtecao">
+                        <label for="preocupacaoAposentadoria">Renda na aposentadoria</label><br>
+                        
+                        <input type="checkbox" id="preocupacaoEducacao" class="prioridadeProtecao">
+                        <label for="preocupacaoEducacao">Educação dos filhos</label><br>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" onclick="prevTab()">Anterior: Patrimônio</button>
+                    <button class="btn btn-success" onclick="calcularResultados()">Calcular Resultados</button>
+                </div>
+            </div>
+            
+            <div id="resultados" class="tab-content">
+                <h2>Resultados da Análise</h2>
+                
+                <div id="resultContent" style="display: none;">
+                    <div id="loadingResults">
+                        <p>Calculando sua análise personalizada...</p>
+                        <div style="text-align: center; margin: 20px 0;">
+                            <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--secondary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="analysisResults" style="display: none;">
+                        <div class="insight-box">
+                            <h4>Resumo da Análise</h4>
+                            <p id="resumoAnalise"></p>
+                        </div>
+                        
+                        <div class="result-summary">
+                            <div class="result-item">
+                                <h3>Proteção Pessoal</h3>
+                                <p>Valor recomendado: <strong id="valorProtecaoPessoal">R$ 0,00</strong></p>
+                                <p>Este valor considera sua renda atual, gastos mensais, e o tempo que você gostaria de garantir proteção aos seus dependentes.</p>
+                            </div>
+                            
+                            <div class="result-item">
+                                <h3>Proteção Patrimonial</h3>
+                                <p>Valor recomendado: <strong id="valorProtecaoPatrimonial">R$ 0,00</strong></p>
+                                <p>Este valor considera seus ativos, como imóveis e veículos, além do risco associado a cada tipo de bem.</p>
+                            </div>
+                            
+                            <div class="result-item">
+                                <h3>Reserva de Emergência</h3>
+                                <p>Valor recomendado: <strong id="valorReservaEmergencia">R$ 0,00</strong></p>
+                                <p>Este valor considera seus gastos mensais fixos e sua estabilidade profissional.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <div class="chart-container">
+                                    <canvas id="chartNecessidades"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-col">
+                                <div class="chart-container">
+                                    <canvas id="chartEmocional"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-box">
+                            <h4>Análise Psicofinanceira</h4>
+                            <p id="analiseEmocional"></p>
+                        </div>
+                        
+                        <h3>Recomendações Personalizadas</h3>
+                        <div id="recomendacoes"></div>
+                        
+                        <div class="form-group" style="margin-top: 30px;">
+                            <button class="btn btn-success" onclick="gerarPDF()">Salvar como PDF</button>
+                            <button class="btn" onclick="window.print()">Imprimir Relatório</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="resultPrompt">
+                    <p>Clique em "Calcular Resultados" na aba anterior para visualizar sua análise personalizada.</p>
+                    <button class="btn" onclick="prevTab()">Anterior: Perfil Emocional</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Conteúdo apenas para impressão -->
+        <div class="print-only">
+            <h2>Relatório de Proteção Financeira e Patrimonial</h2>
+            <div id="printNome"></div>
+            <div id="printData"></div>
+            
+            <div id="printResultados"></div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        // Controle de abas
+        function openTab(evt, tabName) {
+            var i, tabContent, tabBtns;
+            
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            
+            tabBtns = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].className = tabBtns[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        
+        function nextTab() {
+            var currentTab = document.querySelector(".tab-content.active");
+            var currentTabBtn = document.querySelector(".tab-btn.active");
+            var nextTabBtn = currentTabBtn.nextElementSibling;
+            
+            if (nextTabBtn) {
+                currentTab.classList.remove("active");
+                currentTabBtn.classList.remove("active");
+                
+                var nextTabId = nextTabBtn.getAttribute("onclick").match(/openTab\(event, '(.+?)'\)/)[1];
+                document.getElementById(nextTabId).classList.add("active");
+                nextTabBtn.classList.add("active");
+            }
+        }
+        
+        function prevTab() {
+            var currentTab = document.querySelector(".tab-content.active");
+            var currentTabBtn = document.querySelector(".tab-btn.active");
+            var prevTabBtn = currentTabBtn.previousElementSibling;
+            
+            if (prevTabBtn) {
+                currentTab.classList.remove("active");
+                currentTabBtn.classList.remove("active");
+                
+                var prevTabId = prevTabBtn.getAttribute("onclick").match(/openTab\(event, '(.+?)'\)/)[1];
+                document.getElementById(prevTabId).classList.add("active");
+                prevTabBtn.classList.add("active");
+            }
+        }
+        
+        // Funções para mostrar/esconder seções condicionais
+        function toggleDependentes() {
+            var temDependentes = document.getElementById("temDependentes").value;
+            var dependentesDetails = document.getElementById("dependentesDetails");
+            
+            if (temDependentes === "sim") {
+                dependentesDetails.style.display = "block";
+            } else {
+                dependentesDetails.style.display = "none";
+            }
+        }
+        
+        function toggleSeguroExistente() {
+            var seguroExistente = document.getElementById("seguroExistente").value;
+            var seguroExistenteDetails = document.getElementById("seguroExistenteDetails");
+            
+            if (seguroExistente === "sim") {
+                seguroExistenteDetails.style.display = "block";
+            } else {
+                seguroExistenteDetails.style.display = "none";
+            }
+        }
+        
+        // Atualizar lista de dependentes
+        function atualizarDependentes() {
+            var numDependentes = parseInt(document.getElementById("numDependentes").value) || 0;
+            var dependentesList = document.getElementById("dependentesList");
+            dependentesList.innerHTML = "";
+            
+            for (var i = 1; i <= numDependentes; i++) {
+                var dependenteHtml = `
+                    <div class="dependente-item">
+                        <h4>Dependente ${i}</h4>
+                        <div class="flex-row">
+                            <div class="flex-col">
+                                <div class="form-group">
+                                    <label for="dependenteIdade${i}">Idade:</label>
+                                    <input type="number" id="dependenteIdade${i}" min="0" max="100" placeholder="Idade">
+                                </div>
+                            </div>
+                            <div class="flex-col">
+                                <div class="form-group">
+                                    <label for="dependenteTipo${i}">Tipo:</label>
+                                    <select id="dependenteTipo${i}">
+                                        <option value="">Selecione</option>
+                                        <option value="conjuge">Cônjuge</option>
+                                        <option value="filho">Filho(a)</option>
+                                        <option value="pai">Pai/Mãe</option>
+                                        <option value="outro">Outro</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                dependentesList.innerHTML += dependenteHtml;
+            }
+        }
+        
+        // Atualizar marcadores emocionais
+        function atualizarEmotionalMarker(id) {
+            var slider = document.getElementById(id);
+            var marker = document.getElementById(id + "Marker");
+            var value = slider.value;
+            var percent = ((value - slider.min) / (slider.max - slider.min)) * 100;
+            
+            marker.style.left = percent + "%";
+        }
+        
+        // Formatar valores monetários
+        function formatMoney(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2
+            }).format(value);
+        }
+        
+        // Calcular resultados
+        function calcularResultados() {
+            // Mostrar loading
+            document.getElementById("resultContent").style.display = "block";
+            document.getElementById("resultPrompt").style.display = "none";
+            document.getElementById("loadingResults").style.display = "block";
+            document.getElementById("analysisResults").style.display = "none";
+            
+            // Simulação de processamento
+            setTimeout(processarResultados, 1500);
+            
+            // Navegar para a aba de resultados
+            var event = { currentTarget: document.querySelector('.tab-btn:nth-child(5)') };
+            openTab(event, 'resultados');
+        }
+        
+        function processarResultados() {
+            // Capturar dados do formulário
+            var nome = document.getElementById("nome").value || "Cliente";
+            var idade = parseInt(document.getElementById("idade").value) || 30;
+            var rendaMensal = parseFloat(document.getElementById("rendaMensal").value) || 5000;
+            var gastosFixosMensais = parseFloat(document.getElementById("gastosFixosMensais").value) || 3000;
+            var temDependentes = document.getElementById("temDependentes").value === "sim";
+            var numDependentes = parseInt(document.getElementById("numDependentes").value) || 0;
+            var tempoSuporteDependentes = parseInt(document.getElementById("tempoSuporteDependentes").value) || 10;
+            var valorImoveis = parseFloat(document.getElementById("valorImoveis").value) || 0;
+            var valorVeiculos = parseFloat(document.getElementById("valorVeiculos").value) || 0;
+            var valorInvestimentos = parseFloat(document.getElementById("valorInvestimentos").value) || 0;
+            var valorDividas = parseFloat(document.getElementById("valorDividas").value) || 0;
+            var valorCoberturaSeguros = parseFloat(document.getElementById("valorCoberturaSeguros").value) || 0;
+            var gastosEducacao = parseFloat(document.getElementById("gastosEducacao").value) || 0;
+            
+            // Capturar dados emocionais
+            var preocupacaoFamilia = parseInt(document.getElementById("preocupacaoFamilia").value) || 5;
+            var disposicaoRisco = parseInt(document.getElementById("disposicaoRisco").value) || 5;
+            var ansiedadeFinanceira = parseInt(document.getElementById("ansiedadeFinanceira").value) || 5;
+            
+            // Calcular valores recomendados
+            
+            // 1. Proteção Pessoal (baseada na renda e obrigações)
+            var fatorMultiplicador = temDependentes ? 20 : 10;
+            var ajusteFatorIdade = Math.max(1, (100 - idade) / 50);
+            var ajusteEmocional = 1 + (preocupacaoFamilia - 5) * 0.1;
+            
+            var valorProtecaoPessoal = rendaMensal * fatorMultiplicador * ajusteFatorIdade * ajusteEmocional;
+            
+            if (temDependentes) {
+                valorProtecaoPessoal += (gastosFixosMensais + gastosEducacao) * 12 * tempoSuporteDependentes;
+            }
+            
+            // Subtrair seguros existentes
+            valorProtecaoPessoal = Math.max(0, valorProtecaoPessoal - valorCoberturaSeguros);
+            
+            // 2. Proteção Patrimonial
+            var valorProtecaoPatrimonial = valorImoveis * 0.8 + valorVeiculos * 0.7;
+            
+            // 3. Reserva de Emergência
+            var mesesReserva = 6 + Math.floor((10 - disposicaoRisco) / 2);
+            var valorReservaEmergencia = gastosFixosMensais * mesesReserva;
+            
+            // Atualizar elementos HTML com os resultados
+            document.getElementById("valorProtecaoPessoal").textContent = formatMoney(valorProtecaoPessoal);
+            document.getElementById("valorProtecaoPatrimonial").textContent = formatMoney(valorProtecaoPatrimonial);
+            document.getElementById("valorReservaEmergencia").textContent = formatMoney(valorReservaEmergencia);
+            
+            // Criar resumo da análise
+            var resumoAnalise = `Olá ${nome}, com base nas informações fornecidas, nossa análise indica que você necessita de uma proteção financeira total de ${formatMoney(valorProtecaoPessoal + valorProtecaoPatrimonial)} para garantir segurança para você${temDependentes ? " e sua família" : ""}.`;
+            document.getElementById("resumoAnalise").textContent = resumoAnalise;
+            
+            // Análise emocional
+            var perfisEmocionais = [
+                "Você apresenta um perfil conservador em relação a riscos, valorizando a segurança e a previsibilidade.",
+                "Seu perfil indica um equilíbrio entre proteção e disposição para assumir riscos calculados.",
+                "Seu perfil demonstra uma boa tolerância a riscos, com foco em oportunidades de crescimento."
+            ];
+            
+            var indicePerfilEmocional = disposicaoRisco <= 3 ? 0 : (disposicaoRisco <= 7 ? 1 : 2);
+            var analiseAnsiedade = ansiedadeFinanceira >= 7 ? 
+                "Seu nível de ansiedade em relação a questões financeiras é elevado, o que pode impactar sua qualidade de vida. Uma proteção financeira adequada pode ajudar a reduzir essa ansiedade." : 
+                "Seu nível de ansiedade em relação a questões financeiras é administrável, o que favorece decisões mais racionais.";
+            
+            var analiseEmocional = perfisEmocionais[indicePerfilEmocional] + " " + analiseAnsiedade;
+            document.getElementById("analiseEmocional").textContent = analiseEmocional;
+            
+            // Recomendações personalizadas
+            var recomendacoes = "";
+            
+            if (valorProtecaoPessoal > 0) {
+                recomendacoes += `<div class="result-item">
+                    <h3>Seguro de Vida</h3>
+                    <p>Recomendamos um seguro de vida com cobertura de aproximadamente ${formatMoney(valorProtecaoPessoal)}.</p>
+                    <p>Coberturas importantes: morte por qualquer causa, invalidez permanente e doenças graves.</p>
+                </div>`;
+            }
+            
+            if (valorProtecaoPatrimonial > 0) {
+                recomendacoes += `<div class="result-item">
+                    <h3>Seguro Residencial e Automóvel</h3>
+                    <p>Para proteger seu patrimônio, considere seguros que cubram ${formatMoney(valorProtecaoPatrimonial)}.</p>
+                    <p>Coberturas importantes: incêndio, roubo, danos elétricos e responsabilidade civil.</p>
+                </div>`;
+            }
+            
+            if (valorReservaEmergencia > 0) {
+                recomendacoes += `<div class="result-item">
+                    <h3>Reserva de Emergência</h3>
+                    <p>Procure manter em investimentos de liquidez imediata aproximadamente ${formatMoney(valorReservaEmergencia)}.</p>
+                    <p>Sugestões: CDB com liquidez diária, Tesouro Selic ou fundos DI de baixo risco.</p>
+                </div>`;
+            }
+            
+            if (ansiedadeFinanceira >= 7) {
+                recomendacoes += `<div class="result-item">
+                    <h3>Gestão da Ansiedade Financeira</h3>
+                    <p>Considere desenvolver práticas de mindfulness e planejamento financeiro sistemático para reduzir sua ansiedade.</p>
+                    <p>A implementação gradual das proteções recomendadas também ajudará a reduzir essa ansiedade.</p>
+                </div>`;
+            }
+            
+            document.getElementById("recomendacoes").innerHTML = recomendacoes;
+            
+            // Criar gráficos
+            criarGraficoNecessidades(valorProtecaoPessoal, valorProtecaoPatrimonial, valorReservaEmergencia);
+            criarGraficoEmocional(preocupacaoFamilia, disposicaoRisco, ansiedadeFinanceira);
+            
+            // Preparar conteúdo para impressão
+            document.getElementById("printNome").innerHTML = `<h3>Cliente: ${nome}</h3>`;
+            document.getElementById("printData").innerHTML = `<p>Data da análise: ${new Date().toLocaleDateString('pt-BR')}</p>`;
+            document.getElementById("printResultados").innerHTML = `
+                <div class="result-summary">
+                    <div class="result-item">
+                        <h3>Proteção Pessoal</h3>
+                        <p>Valor recomendado: ${formatMoney(valorProtecaoPessoal)}</p>
+                    </div>
+                    <div class="result-item">
+                        <h3>Proteção Patrimonial</h3>
+                        <p>Valor recomendado: ${formatMoney(valorProtecaoPatrimonial)}</p>
+                    </div>
+                    <div class="result-item">
+                        <h3>Reserva de Emergência</h3>
+                        <p>Valor recomendado: ${formatMoney(valorReservaEmergencia)}</p>
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <h4>Análise Psicofinanceira</h4>
+                    <p>${analiseEmocional}</p>
+                </div>
+                <h3>Recomendações Personalizadas</h3>
+                ${recomendacoes}
+            `;
+            
+            // Esconder loading e mostrar resultados
+            document.getElementById("loadingResults").style.display = "none";
+            document.getElementById("analysisResults").style.display = "block";
+        }
+        
+        function criarGraficoNecessidades(pessoal, patrimonial, emergencia) {
+            var ctx = document.getElementById('chartNecessidades').getContext('2d');
+            
+            if (window.necessidadesChart) {
+                window.necessidadesChart.destroy();
+            }
+            
+            window.necessidadesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Proteção Pessoal', 'Proteção Patrimonial', 'Reserva de Emergência'],
+                    datasets: [{
+                        label: 'Valores Recomendados (R$)',
+                        data: [pessoal, patrimonial, emergencia],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.7)',
+                            'rgba(46, 204, 113, 0.7)',
+                            'rgba(243, 156, 18, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(52, 152, 219, 1)',
+                            'rgba(46, 204, 113, 1)',
+                            'rgba(243, 156, 18, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + value.toLocaleString('pt-BR');
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'R$ ' + context.raw.toLocaleString('pt-BR');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function criarGraficoEmocional(preocupacao, risco, ansiedade) {
+            var ctx = document.getElementById('chartEmocional').getContext('2d');
+            
+            if (window.emocionalChart) {
+                window.emocionalChart.destroy();
+            }
+            
+            window.emocionalChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Preocupação com Família',
+                        'Disposição para Riscos',
+                        'Ansiedade Financeira'
+                    ],
+                    datasets: [{
+                        label: 'Seu Perfil Emocional',
+                        data: [preocupacao, risco, ansiedade],
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(52, 152, 219, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    }
+                }
+            });
+        }
+        
+        function gerarPDF() {
+            var element = document.getElementById('resultContent');
+            var opt = {
+                margin: 10,
+                filename: 'analise_protecao_financeira.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar os marcadores emocionais
+            atualizarEmotionalMarker('preocupacaoFamilia');
+            atualizarEmotionalMarker('disposicaoRisco');
+            atualizarEmotionalMarker('ansiedadeFinanceira');
+            
+            // Verificar limitações para checkboxes
+            var checkboxes = document.querySelectorAll('.prioridadeProtecao');
+            var maxPermitido = 3;
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', function() {
+                    var checkedCount = document.querySelectorAll('.prioridadeProtecao:checked').length;
+                    
+                    if (checkedCount > maxPermitido) {
+                        this.checked = false;
+                        alert('Você pode selecionar no máximo ' + maxPermitido + ' opções.');
+                    }
+                });
+            }
+        });
+        
+        // Definir animação para o spinner
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>
